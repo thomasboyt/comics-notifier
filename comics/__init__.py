@@ -10,6 +10,7 @@ app.config['AWS_ACCESS_KEY_ID'] = os.environ['AWS_ACCESS_KEY_ID']
 app.config['AWS_SECRET_ACCESS_KEY'] = os.environ['AWS_SECRET_ACCESS_KEY']
 app.config['MAILGUN_API_KEY'] = os.environ['MAILGUN_API_KEY']
 app.config['S3_BUCKET_NAME'] = "comics-notifier"
+app.debug = bool(os.getenv('DEBUG', False))
 db = SQLAlchemy(app)
 
 s3 = FlaskS3(app)
@@ -73,6 +74,8 @@ def unsubscribe():
         user = User.query.filter_by(email=email).first()
         db.session.delete(user)
         db.session.commit()
+    else:
+        abort(301)
 
     return ""
 
