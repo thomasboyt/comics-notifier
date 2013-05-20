@@ -1,4 +1,7 @@
 *.pyc
 .env
-comics/static/components
 *.sqlite3
+
+comics/static/components
+node_modules/
+dist/
