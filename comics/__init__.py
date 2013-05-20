@@ -72,8 +72,8 @@ def unsubscribe():
     if app.debug:
         print app.config['MAILGUN_API_KEY']
         print request.form.get('token')
-        print request.args.get('timestamp')
-        print request.args.get('signature')
+        print request.form.get('timestamp')
+        print request.form.get('signature')
 
     if verified:
         email = request.args.get('recipient')
