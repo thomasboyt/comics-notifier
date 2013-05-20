@@ -69,11 +69,18 @@ def unsubscribe():
     verified = verify(app.config['MAILGUN_API_KEY'], request.args.get('token'), 
                       request.args.get('timestamp'), request.args.get('signature'))
 
+    if debug:
+        print app.config['MAILGUN_API_KEY']
+        print request.args.get('token')
+        print request.args.get('timestamp')
+        print request.args.get('signature')
+
     if verified:
         email = request.args.get('recipient')
         user = User.query.filter_by(email=email).first()
-        db.session.delete(user)
-        db.session.commit()
+        if user:
+            db.session.delete(user)
+            db.session.commit()
     else:
         abort(401)
 
