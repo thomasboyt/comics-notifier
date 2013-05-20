@@ -41,13 +41,17 @@ def scrape_comics(content):
     lines = lines[1:] # remove CSV header
 
     comics = []
+    title_issue = []
+
     for line in lines:
         comic = scrape_line(line)
 
         # "games", "merchandise", etc. are not upper, so this leaves us w/ only comics
         # filtering out no issue num = only single issues, no collections
         if comic['publisher'].isupper() and comic['issue_num']:
-            comics.append(comic)
+            if not (comic['title'], comic['issue_num']) in title_issue:
+                comics.append(comic)
+                title_issue.append((comic['title'], comic['issue_num']))
 
     return comics
 
