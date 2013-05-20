@@ -57,6 +57,7 @@ $(function() {
       if (!series[data.id]) {
         series[data.id] = data;
         addRow(data);
+        $("#search").val("");
       }
       else {
         createAlert($("#search-alert-container"), "That series is already on your list.");
