@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Comics Notifier</title>
+
+    <script src="/static/components/jquery/jquery.min.js"></script>
+    <script src="/static/components/bootstrap/js/bootstrap-typeahead.js"></script>
+    <script src="/static/components/bootstrap/js/bootstrap-alert.js"></script>
+    <link href="/static/components/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet" />
+
+    <script src="/static/js/main.js"></script>
+    <link href="/static/stylesheets/main.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="narrow-container">
+      
+      <h1>Comics Release Notifier</h1>
+
+      <p>Comics are kind of annoying to keep up with. There's new ones every week, and while it's nice if you remember to check the release list every week, you can still easily miss titles that you care about.</p>
+
+      <p>This app simply gives you email notifications whenever a new issue of a series you like comes out.</p>
+
+      <h3>Step One: Add some titles.</h3>
+      <form id="search-form">
+        <div class="form-container input-append search-container">
+          <button type="submit" id="search-submit" class="btn">Add Series</button>
+          <div class="stretcher">
+            <input type="text" id="search" placeholder="Invincible Iron Man">
+          </div>
+        </div>
+      </form>
+
+      <div id="search-alert-container">
+      </div>
+
+      <table id="series-table" class="table table-striped table-bordered">
+      </table>
+
+      <h3>Step Two: Subscribe.</h3>
+
+      <form id="email-form">
+        <div class="form-container input-append">
+          <button type="submit" id="email-submit" class="btn">Subscribe</button>
+          <div class="stretcher">
+            <input type="email" id="email" placeholder="tony@starkindustries.com">
+          </div>
+        </div>
+      </form>
+
+      <div id="subscribe-alert-container">
+      </div>
+
+      <h3>Step Three: There is no step three.</h3>
+
+      <p>You'll get an email every day that comics you have subscribed to are released. This usually means one email every Wednesday.</p>
+
+      <p>If you'd like to unsubscribe, just click the link at the bottom of your email.<p>
+
+      <h4>The Byline</h4>
+      <p>Made by <a href="http://thomasboyt.com">Thomas Boyt</a>.</p>
+      <p>Relies on the feeds provided by Charles LePage at <a href="http://www.comiclist.com/index.php">ComicList</a>, which are licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License.</a></p>
+    </div>
+  </body>
+</html>

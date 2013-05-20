@@ -1,0 +1,31 @@
+.narrow-container {
+  width:600px;
+  margin: 20px auto;
+}
+
+.stretcher {
+  overflow:hidden;
+}
+
+.narrow-container form .form-container {
+  width:100%;
+}
+
+.narrow-container form button {
+  float:right;
+}
+
+.narrow-container form input {
+  box-sizing:border-box;
+  /*width:505px;*/
+  width:100%;
+  height:30px;
+}
+
+#series-table {
+  display:none;
+}
+
+#series-table tr td:last-child {
+  width:30px;
+}
