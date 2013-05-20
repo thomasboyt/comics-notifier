@@ -8,6 +8,14 @@ db = SQLAlchemy(app)
 
 from models import Title, Issue, User
 
+# verifies mailgun web hooks
+import hashlib, hmac
+def verify(api_key, token, timestamp, signature):
+    return signature == hmac.new(
+                             key=api_key,
+                             msg='{}{}'.format(timestamp, token),
+                             digestmod=hashlib.sha256).hexdigest()
+
 @app.route('/search')
 def search():
     query = request.args.get('query')
@@ -46,6 +54,19 @@ def subscribe():
     db.session.commit()
 
     return "{}"
+
+@app.route('/unsubscribe', methods=['POST'])
+def unsubscribe():
+    verified = verify(MAILGUN_API_KEY, request.args.get('token'), 
+                      request.args.get('timestamp'), request.args.get('signature'))
+
+    if verified:
+        email = request.args.get('recipient')
+        user = User.query.filter_by(email=email).first()
+        db.session.delete(user)
+        db.session.commit()
+
+    return ""
 
 @app.route('/')
 def index():
