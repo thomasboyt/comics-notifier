@@ -1,3 +1,4 @@
 *.pyc
+.env
 comics/static/components
 *.sqlite3
