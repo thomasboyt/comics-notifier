@@ -5,4 +5,7 @@ SQLAlchemy==0.8.1
 Werkzeug==0.8.3
 beautifulsoup4==4.2.0
 feedparser==5.1.3
+gunicorn==0.17.4
+requests==1.2.0
+simplejson==3.3.0
 wsgiref==0.1.2
