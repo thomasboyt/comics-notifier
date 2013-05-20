@@ -66,12 +66,12 @@ def subscribe():
 
 @app.route('/unsubscribe', methods=['POST'])
 def unsubscribe():
-    verified = verify(app.config['MAILGUN_API_KEY'], request.args.get('token'), 
-                      request.args.get('timestamp'), request.args.get('signature'))
+    verified = verify(app.config['MAILGUN_API_KEY'], request.form.get('token'), 
+                      request.form.get('timestamp'), request.form.get('signature'))
 
     if app.debug:
         print app.config['MAILGUN_API_KEY']
-        print request.args.get('token')
+        print request.form.get('token')
         print request.args.get('timestamp')
         print request.args.get('signature')
 
