@@ -1,9 +1,10 @@
 from flask import Flask, request, render_template, abort
 from flask.ext.sqlalchemy import SQLAlchemy
 import simplejson as json
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dev.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 
 from models import Title, Issue, User
