@@ -22,7 +22,7 @@ import hashlib, hmac
 def verify(api_key, token, timestamp, signature):
     return signature == hmac.new(
                              key=api_key,
-                             msg='{}{}'.format(timestamp, token),
+                             msg='{0}{1}'.format(timestamp, token),
                              digestmod=hashlib.sha256).hexdigest()
 
 @app.route('/search')
@@ -69,14 +69,8 @@ def unsubscribe():
     verified = verify(app.config['MAILGUN_API_KEY'], request.form.get('token'), 
                       request.form.get('timestamp'), request.form.get('signature'))
 
-    if app.debug:
-        print app.config['MAILGUN_API_KEY']
-        print request.form.get('token')
-        print request.form.get('timestamp')
-        print request.form.get('signature')
-
     if verified:
-        email = request.args.get('recipient')
+        email = request.form.get('recipient')
         user = User.query.filter_by(email=email).first()
         if user:
             db.session.delete(user)
