@@ -31,7 +31,7 @@ module.exports = function(grunt) {
       dist: {
         upload: [{
           src: "dist/*",
-          dest: "dist/"
+          dest: "static/"
         }]
       }
     }

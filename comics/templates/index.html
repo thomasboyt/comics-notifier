@@ -3,6 +3,7 @@
   <head>
     <title>Comics Notifier</title>
 
+    {% if debug %}
     <script src="/static/components/jquery/jquery.min.js"></script>
     <script src="/static/components/bootstrap/js/bootstrap-typeahead.js"></script>
     <script src="/static/components/bootstrap/js/bootstrap-alert.js"></script>
@@ -10,6 +11,11 @@
 
     <script src="/static/js/main.js"></script>
     <link href="/static/stylesheets/main.css" rel="stylesheet" />
+    {% else %}
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
+    {% endif %}
+
   </head>
   <body>
     <div class="narrow-container">

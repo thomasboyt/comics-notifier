@@ -1,11 +1,17 @@
 from flask import Flask, request, render_template, abort
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask_s3 import FlaskS3
 import simplejson as json
 import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['AWS_ACCESS_KEY_ID'] = os.environ['AWS_ACCESS_KEY_ID']
+app.config['AWS_SECRET_ACCESS_KEY'] = os.environ['AWS_SECRET_ACCESS_KEY']
+app.config['S3_BUCKET_NAME'] = "comics-notifier"
 db = SQLAlchemy(app)
+
+s3 = FlaskS3(app)
 
 from models import Title, Issue, User
 
@@ -20,7 +26,7 @@ def verify(api_key, token, timestamp, signature):
 @app.route('/search')
 def search():
     query = request.args.get('query')
-    results = Title.query.filter(Title.title.like(query + r'%')).order_by(Title.title).all()
+    results = Title.query.filter(Title.title.ilike(query + r'%')).order_by(Title.title).all()
     return json.dumps(results)
 
 @app.route('/title/<title>')
@@ -71,4 +77,4 @@ def unsubscribe():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', debug=app.debug)
