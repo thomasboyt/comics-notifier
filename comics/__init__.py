@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['AWS_ACCESS_KEY_ID'] = os.environ['AWS_ACCESS_KEY_ID']
 app.config['AWS_SECRET_ACCESS_KEY'] = os.environ['AWS_SECRET_ACCESS_KEY']
+app.config['MAILGUN_API_KEY'] = os.environ['MAILGUN_API_KEY']
 app.config['S3_BUCKET_NAME'] = "comics-notifier"
 db = SQLAlchemy(app)
 
@@ -64,7 +65,7 @@ def subscribe():
 
 @app.route('/unsubscribe', methods=['POST'])
 def unsubscribe():
-    verified = verify(MAILGUN_API_KEY, request.args.get('token'), 
+    verified = verify(app.config['MAILGUN_API_KEY'], request.args.get('token'), 
                       request.args.get('timestamp'), request.args.get('signature'))
 
     if verified:
