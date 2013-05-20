@@ -75,7 +75,7 @@ def unsubscribe():
         db.session.delete(user)
         db.session.commit()
     else:
-        abort(301)
+        abort(401)
 
     return ""
 
