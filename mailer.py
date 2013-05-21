@@ -49,5 +49,5 @@ def create_mail(users):
         )
 
 if __name__ == "__main__":
-    date = datetime(2013, 5, 15)
+    date = datetime(2013, 5, 22)
     create_mail(query_date(date))
