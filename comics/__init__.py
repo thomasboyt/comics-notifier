@@ -95,7 +95,7 @@ def unsubscribe():
         db.session.delete(user)
         db.session.commit()
 
-    return render_template("unsubscribe.html")
+    return render_template("unsubscribe.html", debug=app.debug)
 
 @app.route('/')
 def index():
