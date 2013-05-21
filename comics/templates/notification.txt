@@ -1,0 +1,11 @@
+Hey there, comics you follow have new issues coming out today!
+
+{% for comic, issues in comics.iteritems() %}
+  {-% for issue in issues %}
+    - {{comic}} #{{issue.number}}
+  {-% endfor %}
+{-% endfor %}
+
+Happy reading!
+
+- Comics Release Notifier

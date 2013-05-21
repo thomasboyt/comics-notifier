@@ -13,7 +13,8 @@ MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
 MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
 
 env = Environment(loader=PackageLoader('comics', 'templates'))
-html_view = env.get_template("mail.html")
+html_view = env.get_template("notification.html")
+txt_view = env.get_template("notification.txt")
 
 def query_date(date):
     issues = Issue.query.filter_by(release_date=date).all()
@@ -30,19 +31,10 @@ def query_date(date):
 
     return user_cache
 
-# TODO: find a decent plain-text templating language
-def plain_text_view(user, comics):
-    out = "New comics for you!\n\n"
-    for comic, issues in comics.iteritems():
-        for issue in issues:
-            out += "\t- %s #%s\n" % (comic, issue.number)
-    out += "\nThanks for reading!\n"
-    return out
-
 def create_mail(users):
     auth = HTTPBasicAuth('api', MAILGUN_API_KEY)
     for user, comics in users.iteritems():
-        txt = plain_text_view(user, comics)
+        txt = txt_view.render(comics=comics)
         html = html_view.render(comics=comics)
         r = requests.post(
             url="https://api.mailgun.net/v2/%s/messages" % (MAILGUN_DOMAIN),
