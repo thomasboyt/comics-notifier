@@ -68,6 +68,9 @@ if __name__ == "__main__":
             db.session.add(title)
             db.session.commit()
 
-        issue = Issue(comic['issue_num'], comic['date'], title)
-        db.session.add(issue)
-        db.session.commit()
+        existing_issue = Issue.query.filter_by(title=title, number=comic['issue_num']).first()
+
+        if not existing_issue:
+            issue = Issue(comic['issue_num'], comic['date'], title)
+            db.session.add(issue)
+            db.session.commit()
