@@ -1,14 +1,16 @@
 from flask import Flask, request, render_template, abort
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_s3 import FlaskS3
+
 import simplejson as json
+import requests
+from requests.auth import HTTPBasicAuth
 import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['AWS_ACCESS_KEY_ID'] = os.environ['AWS_ACCESS_KEY_ID']
 app.config['AWS_SECRET_ACCESS_KEY'] = os.environ['AWS_SECRET_ACCESS_KEY']
-app.config['MAILGUN_API_KEY'] = os.environ['MAILGUN_API_KEY']
 app.config['S3_BUCKET_NAME'] = "comics-notifier"
 app.debug = bool(os.getenv('DEBUG', False))
 db = SQLAlchemy(app)
@@ -16,6 +18,10 @@ db = SQLAlchemy(app)
 s3 = FlaskS3(app)
 
 from models import Title, Issue, User
+
+MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
+MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
+mail_auth = HTTPBasicAuth('api', MAILGUN_API_KEY)
 
 # verifies mailgun web hooks
 import hashlib, hmac
@@ -62,11 +68,28 @@ def subscribe():
     db.session.add(user)
     db.session.commit()
 
+    titles = [title.title for title in titles]
+
+    html = render_template("confirmation.html", comics=titles)
+    txt = render_template("confirmation.txt", comics=titles)
+
+    r = requests.post(
+        url="https://api.mailgun.net/v2/%s/messages" % (MAILGUN_DOMAIN),
+        data={
+            "from": "Comics Notifier <notifier@comicsnotifier.mailgun.org>",
+            "to": user.email,
+            "subject": "Subscription confirmation",
+            "text": txt,
+            "html": html,
+        },
+        auth=mail_auth
+    )
+
     return "{}"
 
 @app.route('/unsubscribe', methods=['POST'])
 def unsubscribe():
-    verified = verify(app.config['MAILGUN_API_KEY'], request.form.get('token'), 
+    verified = verify(MAILGUN_API_KEY, request.form.get('token'), 
                       request.form.get('timestamp'), request.form.get('signature'))
 
     if verified:
