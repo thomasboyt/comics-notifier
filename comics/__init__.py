@@ -87,21 +87,15 @@ def subscribe():
 
     return "{}"
 
-@app.route('/unsubscribe', methods=['POST'])
+@app.route('/unsubscribe')
 def unsubscribe():
-    verified = verify(MAILGUN_API_KEY, request.form.get('token'), 
-                      request.form.get('timestamp'), request.form.get('signature'))
+    email = request.args.get('email')
+    user = User.query.filter_by(email=email).first()
+    if user:
+        db.session.delete(user)
+        db.session.commit()
 
-    if verified:
-        email = request.form.get('recipient')
-        user = User.query.filter_by(email=email).first()
-        if user:
-            db.session.delete(user)
-            db.session.commit()
-    else:
-        abort(401)
-
-    return ""
+    return render_template("unsubscribe.html")
 
 @app.route('/')
 def index():

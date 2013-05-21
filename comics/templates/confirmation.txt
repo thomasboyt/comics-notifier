@@ -7,3 +7,5 @@ Hey there! Thanks for signing up with us. You're now subscribed to the following
 Happy reading!
 
 - Comics Release Notifier
+
+Change your mind? Click here to unsubscribe: http://comics-notifier.herokuapp.com/unsubscribe/?email={{user}}

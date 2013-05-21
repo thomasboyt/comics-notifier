@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Comics Notifier</title>
+
+    {% if debug %}
+    <link href="/static/components/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="/static/stylesheets/main.css" rel="stylesheet" />
+    {% else %}
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
+    {% endif %}
+
+  </head>
+  <body>
+    <div class="narrow-container">
+      <h1>You're now unsubscribed.</h1>
+
+      <p>We're sorry to see you go! Feel free to resubscribe at any time.</p>
+    </div>
+  </body>
+</html>
+
