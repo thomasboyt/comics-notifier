@@ -1,7 +1,7 @@
-import feedparser
-from bs4 import BeautifulSoup
 import re
 from datetime import datetime
+import feedparser
+from bs4 import BeautifulSoup
 
 from comics import db
 from comics.models import Title, Issue
@@ -57,6 +57,7 @@ def scrape_comics(content):
 
 if __name__ == "__main__":
     feed = feedparser.parse("http://feeds.feedburner.com/ncrl?format=xml")
+
     newest_timestamp = feed.entries[0].published_parsed
     # if newest_timestamp > last_timestamp
     comics = scrape_comics(feed.entries[0].content[0].value)
@@ -65,12 +66,14 @@ if __name__ == "__main__":
         title = Title.query.filter_by(title=comic['title']).first()
         if not title:
             title = Title(comic['title'])
+            print "Added series " + comic['title']
             db.session.add(title)
             db.session.commit()
 
         existing_issue = Issue.query.filter_by(title=title, number=comic['issue_num']).first()
 
         if not existing_issue:
+            print "Added issue " + comic['issue_num']
             issue = Issue(comic['issue_num'], comic['date'], title)
             db.session.add(issue)
             db.session.commit()

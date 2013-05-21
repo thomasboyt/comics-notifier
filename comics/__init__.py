@@ -14,22 +14,13 @@ app.config['AWS_SECRET_ACCESS_KEY'] = os.environ['AWS_SECRET_ACCESS_KEY']
 app.config['S3_BUCKET_NAME'] = "comics-notifier"
 app.debug = bool(os.getenv('DEBUG', False))
 db = SQLAlchemy(app)
-
 s3 = FlaskS3(app)
-
-from models import Title, Issue, User
 
 MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
 MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
 mail_auth = HTTPBasicAuth('api', MAILGUN_API_KEY)
 
-# verifies mailgun web hooks
-import hashlib, hmac
-def verify(api_key, token, timestamp, signature):
-    return signature == hmac.new(
-                             key=api_key,
-                             msg='{0}{1}'.format(timestamp, token),
-                             digestmod=hashlib.sha256).hexdigest()
+from models import Title, Issue, User
 
 @app.route('/search')
 def search():
