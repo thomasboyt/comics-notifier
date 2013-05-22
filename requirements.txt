@@ -4,6 +4,7 @@ Flask-SQLAlchemy==0.16
 Jinja2==2.6
 SQLAlchemy==0.8.1
 Werkzeug==0.8.3
+alembic==0.5.0
 beautifulsoup4==4.2.0
 boto==2.9.3
 feedparser==5.1.3
