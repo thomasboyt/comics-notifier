@@ -39,7 +39,7 @@ $(function() {
     },
     limit: 10,
     transformSuggestions: function(terms, suggestions) {
-      var prefix = terms.join(" ");
+      var prefix = terms.join(" ").toLowerCase();
       return suggestions.sort(function(a,b) {
         a = a.value.toLowerCase(), b = b.value.toLowerCase();
         if(!(a.indexOf(prefix) == 0 && b.indexOf(prefix) == 0)) {
