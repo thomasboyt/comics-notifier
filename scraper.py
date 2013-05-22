@@ -1,5 +1,5 @@
 import re
-from datetime import datetime
+from datetime import date, datetime
 import feedparser
 from bs4 import BeautifulSoup
 
@@ -25,8 +25,10 @@ def scrape_line(line):
         title = items[2]
         issue_num = None
 
+    date = datetime.strptime(items[0], "%m/%d/%y").date()
+
     return {
-        "date": datetime.strptime(items[0], "%m/%d/%y"),
+        "date": date,
         "publisher": items[1],
         "title": title,
         "issue_num": issue_num,
