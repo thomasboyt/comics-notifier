@@ -23,21 +23,32 @@ $(function() {
     if (table.css("display") == "none") table.toggle();
   }
 
-   var typeahead = $("#search").typeahead({
-     name: 'comics',
-     prefetch: {
-       url: '/comics',
-       ttl: 0,
-       filter: function(items) {
-         allSeries = items.map(function(item) {
-           item.value = item.title;
-           item.tokens = item.title.split(" ");
-           return item;
-         });
-         return allSeries;
-       }
-     },
-     limit: 10
+  var typeahead = $("#search").typeahead({
+    name: 'comics',
+    prefetch: {
+      url: '/comics',
+      ttl: 0,
+      filter: function(items) {
+       allSeries = items.map(function(item) {
+         item.value = item.title;
+         item.tokens = item.title.split(" ");
+         return item;
+       });
+       return allSeries;
+      }
+    },
+    limit: 10,
+    transformSuggestions: function(terms, suggestions) {
+      var prefix = terms.join(" ");
+      return suggestions.sort(function(a,b) {
+        a = a.value.toLowerCase(), b = b.value.toLowerCase();
+        if(!(a.indexOf(prefix) == 0 && b.indexOf(prefix) == 0)) {
+          if(a.indexOf(prefix) == 0) return -1;
+          if(b.indexOf(prefix) == 0) return 1;
+        }
+        return a > b ? 1 : -1;
+      });
+    }
   });
 
   var createAlert = function(container, message, type) {
