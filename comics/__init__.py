@@ -22,19 +22,10 @@ mail_auth = HTTPBasicAuth('api', MAILGUN_API_KEY)
 
 from models import Title, Issue, User
 
-@app.route('/search')
-def search():
-    query = request.args.get('query')
-    results = Title.query.filter(Title.title.ilike(query + r'%')).order_by(Title.title).all()
-    return json.dumps(results)
-
-@app.route('/title/<title>')
-def title(title):
-    result = Title.query.filter_by(title=title).first()
-    if not result:
-        abort(404)
-    else:
-        return json.dumps(result)
+@app.route('/comics')
+def comics():
+    comics = Title.query.order_by(Title.title).all()
+    return json.dumps(comics)
 
 @app.route('/subscribe')
 def subscribe():

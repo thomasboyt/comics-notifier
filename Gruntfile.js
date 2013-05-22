@@ -7,7 +7,7 @@ module.exports = function(grunt) {
           'dist/scripts.js': [
             'comics/static/components/jquery/jquery.min.js',
             'comics/static/components/bootstrap/js/bootstrap-typeahead.js',
-            'comics/static/components/bootstrap/js/bootstrap-alert.js',
+            'comics/static/components/typeahead.js/dist/typeahead.js',
             'comics/static/js/main.js'
           ]
         }
@@ -18,6 +18,7 @@ module.exports = function(grunt) {
         files: {
           'dist/styles.css': [
             'comics/static/components/bootstrap/docs/assets/css/bootstrap.css',
+            'comics/static/stylesheets/typeahead.js-bootstrap.css',
             'comics/static/stylesheets/main.css'
           ]
         }

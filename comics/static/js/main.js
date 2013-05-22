@@ -1,7 +1,8 @@
 $(function() {
 
   // series to subscribe to
-  var series = {};
+  var selectedSeries = {};
+  var allSeries; // populated in prefetch
 
   var addRow = function(data) {
     var table = $("#series-table");
@@ -22,24 +23,21 @@ $(function() {
     if (table.css("display") == "none") table.toggle();
   }
 
-  var autocompleter = function(query, process) {
-    $.getJSON("/search", {query: query}, function(data, status) {
-      process(data.map(function(item) {return item.title}));
-    });
-  };
-
    var typeahead = $("#search").typeahead({
-    source: autocompleter,
-    items: 20,
-    minLength: 1,
-    highlighter: function(item) {
-      var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/, '\\$&');
-
-      // one char change: made matcher not global, since this is just prefix search
-      return item.replace(new RegExp('(' + query + ')', 'i'), function ($1, match) {
-        return '<strong>' + match + '</strong>'
-      });
-    }
+     name: 'comics',
+     prefetch: {
+       url: '/comics',
+       ttl: 0,
+       filter: function(items) {
+         allSeries = items.map(function(item) {
+           item.value = item.title;
+           item.tokens = item.title.split(" ");
+           return item;
+         });
+         return allSeries;
+       }
+     },
+     limit: 10
   });
 
   var createAlert = function(container, message, type) {
@@ -53,20 +51,24 @@ $(function() {
     e.preventDefault();
     
     var title = $("#search").val();
-    $.getJSON("/title/" + encodeURIComponent(title), function(data, status) {
-      if (!series[data.id]) {
-        series[data.id] = data;
-        addRow(data);
-        $("#search").val("");
-      }
-      else {
-        createAlert($("#search-alert-container"), "That series is already on your list.");
-      }
-    }).fail(function(e) {
-      if (e.status == 404) {
-        createAlert($("#search-alert-container"), "Series not found.");
-      }
+    var series;
+    allSeries.forEach(function(item) {
+      if (item.title.toLowerCase() === title.toLowerCase()) series = item;
     });
+
+    if (!series) {
+      createAlert($("#search-alert-container"), "Series not found in our database.");
+    }
+    else if (selectedSeries[series.id]) {
+      createAlert($("#search-alert-container"), "That series is already on your list.");
+    }
+    else {
+      selectedSeries[series.id] = series;
+      addRow(series);
+      $(".tt-query").val("");
+      $(".tt-hint").val("");
+      $(".tt-dropdown-menu").hide();
+    }
   });
 
   $("#email-form").submit(function(e) {
