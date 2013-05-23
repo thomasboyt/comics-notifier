@@ -32,6 +32,14 @@ def subscribe():
     # TODO: Check for pre-existing user
 
     email = request.args.get('email')
+
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        return json.dumps({
+            "error": True,
+            "desc": "USER_EXISTS"
+        })
+
     title_ids = request.args.get('ids')
     title_ids = title_ids.split(',')
 

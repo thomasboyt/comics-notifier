@@ -86,7 +86,7 @@ $(function() {
     e.preventDefault();
 
     var ids = [];
-    for (prop in series) {
+    for (prop in selectedSeries) {
       ids.push(prop);
     }
     if (ids.length == 0) {
@@ -103,7 +103,12 @@ $(function() {
 
     $.getJSON("/subscribe", {email: email, ids: ids}, function(data) {
       if (data.error) {
-        createAlert($("#subscribe-alert-container"), "Mysterious error!");
+        if (data.desc === "USER_EXISTS") {
+          createAlert($("#subscribe-alert-container"), "You've already subscribed. To update your subscriptions, use the update link in your last email.")
+        }
+        else {
+          createAlert($("#subscribe-alert-container"), "Mysterious error!");
+        }
       }
       else {
         createAlert($("#subscribe-alert-container"), "Success! You should receive a confirmation email shortly.", "success");
