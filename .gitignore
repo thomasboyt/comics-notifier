@@ -2,6 +2,7 @@
 .env
 *.sqlite3
 
+raw_assets/
 comics/static/components
 node_modules/
 dist/
