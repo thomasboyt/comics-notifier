@@ -45,14 +45,12 @@ def subscribe():
 
     titles = []
 
-    for id in title_ids:
-        title = Title.query.filter_by(id=id).first()
-        if not title:
-            return json.dumps({
-                "error": True,
-                "desc": "TITLE_NOT_FOUND"
-            })
-        titles.append(title)
+    titles = Title.query.filter(Title.id.in_(title_ids)).order_by(Title.title).all()
+    if len(titles) != len(title_ids):
+        return json.dumps({
+            "error": True,
+            "desc": "TITLE_NOT_FOUND"
+        })
 
     user = User(email, titles)
     db.session.add(user)
@@ -63,19 +61,23 @@ def subscribe():
     html = render_template("confirmation.html", comics=titles)
     txt = render_template("confirmation.txt", comics=titles)
 
-    r = requests.post(
-        url="https://api.mailgun.net/v2/%s/messages" % (MAILGUN_DOMAIN),
-        data={
-            "from": "Comics Notifier <notifier@comicsnotifier.mailgun.org>",
-            "to": user.email,
-            "subject": "Subscription confirmation",
-            "text": txt,
-            "html": html,
-        },
-        auth=mail_auth
-    )
+    if not app.debug:
+        r = requests.post(
+            url="https://api.mailgun.net/v2/%s/messages" % (MAILGUN_DOMAIN),
+            data={
+                "from": "Comics Notifier <notifier@comicsnotifier.mailgun.org>",
+                "to": user.email,
+                "subject": "Subscription confirmation",
+                "text": txt,
+                "html": html,
+            },
+            auth=mail_auth
+        )
+        return '{}'
+    else:
+        print txt
+        return html
 
-    return "{}"
 
 @app.route('/unsubscribe')
 def unsubscribe():
