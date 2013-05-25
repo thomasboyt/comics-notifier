@@ -12,16 +12,29 @@ module.exports = function(grunt) {
         }
       }
     },
-    cssmin: {
+    less: {
+      dev: {
+        files: {
+          'comics/static/tmp/styles.css': 'comics/static/stylesheets/main.less'
+        }
+      },
       dist: {
         files: {
-          'dist/styles.css': [
-            'comics/static/components/bootstrap/docs/assets/css/bootstrap.css',
-            'comics/static/components/font-awesome/build/assets/font-awesome/css/font-awesome.min.css',
-            'comics/static/stylesheets/typeahead.js-bootstrap.css',
-            'comics/static/stylesheets/main.css'
-          ]
+          'dist/styles.css': 'comics/static/stylesheets/main.less'
+        },
+        options: {
+          'yuicompress': true
         }
+      }
+    },
+    watch: {
+      dev: {
+        files: [
+          'comics/static/stylesheets/**/*'
+        ],
+        tasks: [
+          'less:dev'
+        ]
       }
     },
     s3: {
@@ -33,18 +46,20 @@ module.exports = function(grunt) {
         upload: [{
           src: "dist/*",
           dest: "static/"
-        },
-        {
+        }, {
           src: "comics/static/js/*",
           dest: "static/js/"
-        },
-        {
+        }, {
           src: "comics/static/img/*",
           dest: "static/img/"
+        }, {
+          src: "comics/static/font/*",
+          dest: "static/font/"
         }],
       }
     }
   });
 
-  grunt.registerTask("build", ["uglify", "cssmin"]);
+  grunt.registerTask("dev", ["less:dev", "watch"]);
+  grunt.registerTask("build", ["uglify", "less:dist"]);
 };

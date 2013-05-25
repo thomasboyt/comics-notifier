@@ -14,7 +14,9 @@ app.config['AWS_SECRET_ACCESS_KEY'] = os.environ['AWS_SECRET_ACCESS_KEY']
 app.config['S3_BUCKET_NAME'] = "comics-notifier"
 app.config['DEBUG'] = bool(os.getenv('DEBUG', False))
 db = SQLAlchemy(app)
-s3 = FlaskS3(app)
+
+if not app.config['DEBUG']:
+    s3 = FlaskS3(app)
 
 MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
 MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']

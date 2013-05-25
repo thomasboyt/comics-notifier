@@ -9,6 +9,9 @@
     "grunt-s3": "~0.2.0-alpha.1",
     "grunt": "~0.4.1",
     "grunt-contrib-cssmin": "~0.6.0",
-    "grunt-usemin": "~0.1.12"
+    "grunt-usemin": "~0.1.12",
+    "grunt-contrib-less": "~0.5.2",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-watch": "~0.4.3"
   }
 }
