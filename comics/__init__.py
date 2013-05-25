@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['AWS_ACCESS_KEY_ID'] = os.environ['AWS_ACCESS_KEY_ID']
 app.config['AWS_SECRET_ACCESS_KEY'] = os.environ['AWS_SECRET_ACCESS_KEY']
 app.config['S3_BUCKET_NAME'] = "comics-notifier"
-app.debug = bool(os.getenv('DEBUG', False))
+app.config['DEBUG'] = bool(os.getenv('DEBUG', False))
 db = SQLAlchemy(app)
 s3 = FlaskS3(app)
 
@@ -27,10 +27,38 @@ def comics():
     comics = Title.query.order_by(Title.title).all()
     return json.dumps(comics)
 
+@app.route('/edit', methods=['GET', 'POST'])
+def edit():
+    if request.method == 'GET':
+        email = request.args.get('email')
+        key = request.args.get('key')
+        
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            abort('404')
+
+        return render_template('edit.html', email=user.email, titles=user.titles)
+
+    elif request.method == 'POST':
+        email = request.form.get('email')
+        key = request.form.get('key')
+
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            abort('404')
+
+        title_ids = request.form.get('ids').split(',')
+        titles = []
+        titles = Title.query.filter(Title.id.in_(title_ids)).order_by(Title.title).all()
+
+        user.titles = titles
+        db.session.add(user)
+        db.session.commit()
+
+        return "{}"
+
 @app.route('/subscribe')
 def subscribe():
-    # TODO: Check for pre-existing user
-
     email = request.args.get('email')
 
     existing_user = User.query.filter_by(email=email).first()
@@ -58,10 +86,10 @@ def subscribe():
 
     titles = [title.title for title in titles]
 
-    html = render_template("confirmation.html", comics=titles)
-    txt = render_template("confirmation.txt", comics=titles)
+    html = render_template("email/confirmation.html", comics=titles)
+    txt = render_template("email/confirmation.txt", comics=titles)
 
-    if not app.debug:
+    if not app.config['DEBUG']:
         r = requests.post(
             url="https://api.mailgun.net/v2/%s/messages" % (MAILGUN_DOMAIN),
             data={
@@ -78,7 +106,6 @@ def subscribe():
         print txt
         return html
 
-
 @app.route('/unsubscribe')
 def unsubscribe():
     email = request.args.get('email')
@@ -87,8 +114,8 @@ def unsubscribe():
         db.session.delete(user)
         db.session.commit()
 
-    return render_template("unsubscribe.html", debug=app.debug)
+    return render_template("unsubscribe.html")
 
 @app.route('/')
 def index():
-    return render_template('index.html', debug=app.debug)
+    return render_template('index.html')

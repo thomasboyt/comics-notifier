@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Comics Notifier</title>
+
+    {% if config['DEBUG'] %}
+    <script src="/static/components/jquery/jquery.min.js"></script>
+    <script src="/static/components/typeahead.js/dist/typeahead.js"></script>
+    <script src="/static/components/bootstrap/js/bootstrap-alert.js"></script>
+
+    <link href="/static/components/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="/static/components/font-awesome/build/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/static/stylesheets/typeahead.js-bootstrap.css" rel="stylesheet" />
+
+    <link href="/static/stylesheets/main.css" rel="stylesheet" />
+    {% else %}
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
+    {% endif %}
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,900' rel='stylesheet' type='text/css'>
+
+    {% block head %}
+    {% endblock %}
+  </head>
+  <body>
+    <div class="narrow-container">
+      {% block body %}
+      {% endblock %}
+    </div>
+  </body>
+</html>
+

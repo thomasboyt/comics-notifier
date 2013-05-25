@@ -14,8 +14,8 @@ MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
 DEBUG = os.getenv('DEBUG', False)
 
 env = Environment(loader=PackageLoader('comics', 'templates'))
-html_view = env.get_template("notification.html")
-txt_view = env.get_template("notification.txt")
+html_view = env.get_template("email/notification.html")
+txt_view = env.get_template("email/notification.txt")
 
 def query_date(date):
     issues = Issue.query.filter_by(release_date=date).all()

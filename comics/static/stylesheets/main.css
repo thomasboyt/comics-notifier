@@ -13,9 +13,10 @@ p {
   margin: 20px auto;
 }
 
-.header {
+header {
   text-align:center;
   font-size:1.5em;
+  margin-bottom:10px;
 }
 
 .panel {
@@ -67,4 +68,5 @@ p {
 
 #series-table tr td:last-child {
   width:30px;
+  text-align:center;
 }

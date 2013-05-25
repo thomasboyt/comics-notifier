@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block head %}
+  <script>
+    (function () {
+      // transform titles array into id: {title} map
+      window.selectedSeries = {};
+
+      var series = {{titles|tojson|safe}};
+      for (var i=0; i<series.length; i++) {
+        selectedSeries[series[i].id] = series[i];
+      }
+    })();
+  </script>
+
+  <script src="/static/js/list_view.js"></script>
+  <script src="/static/js/edit.js"></script>
+  <script src="/static/js/placeholders.js"></script>
+{% endblock %}
+
+{% block body %}
+  <div class="panel">
+    {% include "_header.html" %}
+
+    <p>Welcome back, <strong>{{email}}</strong>!</p>
+
+    <h3>Change Your Subscriptions</h3>
+    
+    <form id="search-form">
+      <div class="form-container input-append search-container">
+        <button type="submit" id="search-submit" class="btn">Add Series</button>
+        <div class="stretcher">
+          <input type="text" id="search" placeholder="Detective Comics">
+        </div>
+      </div>
+    </form>
+
+    <div id="search-alert-container">
+    </div>
+
+    <table id="series-table" class="table table-striped table-bordered">
+    </table>
+
+    <button type="submit" id="edit-submit" class="btn">Save Changes</button>
+
+    <div id="edit-alert-container">
+    </div>
+
+  </div>
+{% endblock %}
+

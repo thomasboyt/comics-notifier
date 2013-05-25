@@ -8,6 +8,7 @@
     "grunt-contrib-jshint": "~0.5.3",
     "grunt-s3": "~0.2.0-alpha.1",
     "grunt": "~0.4.1",
-    "grunt-contrib-cssmin": "~0.6.0"
+    "grunt-contrib-cssmin": "~0.6.0",
+    "grunt-usemin": "~0.1.12"
   }
 }

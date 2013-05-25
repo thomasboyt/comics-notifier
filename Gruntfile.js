@@ -19,6 +19,7 @@ module.exports = function(grunt) {
         files: {
           'dist/styles.css': [
             'comics/static/components/bootstrap/docs/assets/css/bootstrap.css',
+            'comics/static/components/font-awesome/build/assets/font-awesome/css/font-awesome.min.css',
             'comics/static/stylesheets/typeahead.js-bootstrap.css',
             'comics/static/stylesheets/main.css'
           ]
