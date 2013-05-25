@@ -12,11 +12,14 @@
     <link href="/static/stylesheets/typeahead.js-bootstrap.css" rel="stylesheet" />
 
     <script src="/static/js/main.js"></script>
+    <script src="/static/js/placeholders.js"></script>
     <link href="/static/stylesheets/main.css" rel="stylesheet" />
     {% else %}
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
     {% endif %}
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,900' rel='stylesheet' type='text/css'>
   </head>
   <body>
     <div class="narrow-container">
@@ -27,8 +30,8 @@
           <p class="tagline">Comic release notifications in your inbox, every week.</p>
         </div>
 
-        <p>Comics annoying to keep up with. There's new ones every week, and while it's nice if you remember to check the release list every week, you can still easily miss titles that you care about.</p>
-        <p>This app simply gives you email notifications whenever a new issue of a series you like comes out.</p>
+        <p>Comics are annoying to keep up with. There's new issues every week, and while it's nice if you remember to check the release list every week, you can still easily miss titles that you care about.</p>
+        <p>This app emails you whenever series you follow have new releases. Like your own personal JARVIS, except without the accent. Or any of the cool stuff. But at least there's emails!</p>
       </div>
       
       <div class="panel">
@@ -38,7 +41,7 @@
           <div class="form-container input-append search-container">
             <button type="submit" id="search-submit" class="btn">Add Series</button>
             <div class="stretcher">
-              <input type="text" id="search" placeholder="Invincible Iron Man">
+              <input type="text" id="search" placeholder="Detective Comics">
             </div>
           </div>
         </form>
@@ -55,7 +58,7 @@
           <div class="form-container input-append">
             <button type="submit" id="email-submit" class="btn">Subscribe</button>
             <div class="stretcher">
-              <input type="email" id="email" placeholder="tony@starkindustries.com">
+              <input type="email" id="email" placeholder="bruce@wayneenterprises.com">
             </div>
           </div>
         </form>
@@ -71,7 +74,7 @@
       </div>
 
       <div class="panel">
-        <h4>The Byline</h4>
+        <h3>The Byline</h3>
         <p>Made by <a href="http://thomasboyt.com">Thomas Boyt</a>.</p>
         <p>Relies on the feeds provided by Charles LePage at <a href="http://www.comiclist.com/index.php">ComicList</a>, which are licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States License.</a></p>
       </div>

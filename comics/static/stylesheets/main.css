@@ -1,3 +1,13 @@
+body {
+  font-size:16px;
+  font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+p {
+  font-size: 1em;
+  line-height: 1.5em;
+}
+
 .narrow-container {
   max-width:650px;
   margin: 20px auto;
@@ -5,7 +15,7 @@
 
 .header {
   text-align:center;
-  font-size:24px;
+  font-size:1.5em;
 }
 
 .panel {
@@ -40,6 +50,7 @@
 
 .narrow-container .tt-dropdown-menu {
   font-size:14px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .tt-hint {
