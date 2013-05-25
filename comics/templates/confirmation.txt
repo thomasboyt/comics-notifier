@@ -1,5 +1,4 @@
 Hey there! Thanks for signing up with us. You're now subscribed to the following comics:
-
 {% for comic in comics %}
     - {{comic}}
 {%- endfor %}
