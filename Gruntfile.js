@@ -37,7 +37,11 @@ module.exports = function(grunt) {
         {
           src: "comics/static/js/*",
           dest: "static/js/"
-        }]
+        },
+        {
+          src: "comics/static/img/*",
+          dest: "static/img/"
+        }],
       }
     }
   });
