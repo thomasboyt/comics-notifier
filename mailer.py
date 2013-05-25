@@ -34,8 +34,8 @@ def query_date(date):
 def create_mail(users):
     auth = HTTPBasicAuth('api', MAILGUN_API_KEY)
     for user, comics in users.iteritems():
-        txt = txt_view.render(comics=comics)
-        html = html_view.render(comics=comics)
+        txt = txt_view.render(comics=comics, user=user)
+        html = html_view.render(comics=comics, user=user)
         if not debug:
             r = requests.post(
                 url="https://api.mailgun.net/v2/%s/messages" % (MAILGUN_DOMAIN),

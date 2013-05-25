@@ -6,8 +6,4 @@ Hey there, comics you follow have new issues coming out today!
   {%- endfor %}
 {%- endfor %}
 
-Happy reading!
-
-- Comics Release Notifier
-
-No longer reading? Click here to unsubscribe: http://comics-notifier.herokuapp.com/unsubscribe/?email={{user}}
+{% include "email/footer.txt" %}

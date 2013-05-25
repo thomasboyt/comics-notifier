@@ -1,6 +1,6 @@
 from flask import request, render_template, abort
 
-from comics import app
+from comics import app, db
 from models import Title, User, Issue
 
 import simplejson as json
@@ -20,7 +20,9 @@ def edit():
         
         user = User.query.filter_by(email=email).first()
         if not user:
-            abort('404')
+            abort(404)
+        if key != user.key:
+            abort(401)
 
         return render_template('edit.html', email=user.email, titles=user.titles)
 
@@ -30,7 +32,9 @@ def edit():
 
         user = User.query.filter_by(email=email).first()
         if not user:
-            abort('404')
+            abort(404)
+        if key != user.key:
+            abort(401)
 
         title_ids = request.form.get('ids').split(',')
         titles = []
@@ -72,8 +76,8 @@ def subscribe():
 
     titles = [title.title for title in titles]
 
-    html = render_template("email/confirmation.html", comics=titles)
-    txt = render_template("email/confirmation.txt", comics=titles)
+    html = render_template("email/confirmation.html", comics=titles, user=user)
+    txt = render_template("email/confirmation.txt", comics=titles, user=user)
 
     if not app.config['DEBUG']:
         r = requests.post(

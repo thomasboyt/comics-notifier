@@ -1,0 +1,6 @@
+Happy reading!
+
+- Comics Release Notifier
+
+Click here to change your subscriptions: http://comics-notifier.herokuapp.com/edit/?email={{user.email}}&key={{user.key}}
+Change your mind? Click here to unsubscribe: http://comics-notifier.herokuapp.com/unsubscribe/?email={{user.email}}

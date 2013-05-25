@@ -3,8 +3,4 @@ Hey there! Thanks for signing up with us. You're now subscribed to the following
     - {{comic}}
 {%- endfor %}
 
-Happy reading!
-
-- Comics Release Notifier
-
-Change your mind? Click here to unsubscribe: http://comics-notifier.herokuapp.com/unsubscribe/?email={{user}}
+{% include "email/footer.txt" %}
