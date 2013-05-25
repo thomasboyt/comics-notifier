@@ -8,8 +8,6 @@ module.exports = function(grunt) {
             'comics/static/components/jquery/jquery.min.js',
             'comics/static/components/bootstrap/js/bootstrap-alert.js',
             'comics/static/components/typeahead.js/dist/typeahead.js',
-            'comics/static/js/main.js',
-            'comics/static/js/placeholder.js'
           ]
         }
       }
@@ -35,6 +33,10 @@ module.exports = function(grunt) {
         upload: [{
           src: "dist/*",
           dest: "static/"
+        },
+        {
+          src: "comics/static/js/*",
+          dest: "static/js/"
         }]
       }
     }

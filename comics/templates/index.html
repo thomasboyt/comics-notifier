@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
 {% block head %}
-  <script src="/static/js/list_view.js"></script>
-  <script src="/static/js/index.js"></script>
-  <script src="/static/js/placeholders.js"></script>
+  <script src="{{ url_for('static', filename='js/list_view.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/placeholders.js') }}"></script>
 {% endblock %}
 
 {% block body %}
