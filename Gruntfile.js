@@ -54,7 +54,7 @@ module.exports = function(grunt) {
           dest: "static/img/"
         }, {
           src: "comics/static/font/*",
-          dest: "static/font/"
+          dest: "font/"
         }],
       }
     }
