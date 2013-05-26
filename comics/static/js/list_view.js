@@ -85,9 +85,7 @@ $(function() {
     else {
       selectedSeries[series.id] = series;
       addRow(series);
-      $(".tt-query").val("");
-      $(".tt-hint").val("");
-      $(".tt-dropdown-menu").hide();
+      $("#search").typeahead('setQuery', '');
     }
   });
 
