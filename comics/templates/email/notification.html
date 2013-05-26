@@ -1,11 +1,9 @@
 <p>Hey there, comics you follow have new issues coming out today!<p>
 
 <ul>
-  {% for comic, issues in comics.iteritems() %}
-    {% for issue in issues %}
-    <li>{{comic}} #{{issue.number}}</li>
-    {% endfor %}
+  {% for issue in comics %}
+    <li>{{issue}}</li>
   {% endfor %}
 </ul>
 
-{% include "email/footer.html %}
+{% include "email/footer.html" %}
