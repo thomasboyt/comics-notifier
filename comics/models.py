@@ -11,7 +11,7 @@ titles_users = db.Table('titles_users',
 class Title(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
-    issues = db.relationship('Issue', backref='title', lazy='select')
+    issues = db.relationship('Issue', backref='title', lazy='dynamic')
 
     def __init__(self, title):
         self.title = title
@@ -33,11 +33,14 @@ class Issue(db.Model):
         self.release_date = release_date
         self.title = title
 
+    def __str__(self):
+        return "%s #%s" % (self.title.title, self.number) 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.Text)
     key = db.Column(db.String(24))
-    titles = db.relationship('Title', secondary=titles_users, backref='users')
+    titles = db.relationship('Title', secondary=titles_users, lazy='dynamic', backref='users')
 
     def __init__(self, email, titles):
         self.email = email

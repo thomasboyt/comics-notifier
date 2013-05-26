@@ -17,41 +17,39 @@ env = Environment(loader=PackageLoader('comics', 'templates'))
 html_view = env.get_template("email/notification.html")
 txt_view = env.get_template("email/notification.txt")
 
-def query_date(date):
-    issues = Issue.query.filter_by(release_date=date).all()
+auth = HTTPBasicAuth('api', MAILGUN_API_KEY)
+def send_mail(user, comics):
+    txt = txt_view.render(comics=comics, user=user)
+    html = html_view.render(comics=comics, user=user)
+    if not DEBUG:
+        r = requests.post(
+            url="https://api.mailgun.net/v2/%s/messages" % (MAILGUN_DOMAIN),
+            data={
+                "from": "Comics Notifier <notifier@comicsnotifier.mailgun.org>",
+                "to": user.email,
+                "subject": "New comics releases today",
+                "text": txt,
+                "html": html,
+            },
+            auth=auth
+        )
+    else:
+        print user.email
+        print txt
+        print "\n"
 
-    user_cache = defaultdict(lambda : defaultdict(list))
+def send_mails(date):
+    new_issues = db.session.query(Issue).filter(Issue.release_date == date).join(Title)
 
-    for issue in issues:
-        title = issue.title
-        title_id = title.id
-
-        for user in title.users:
-            user_cache[user.email][title.title].append(issue)
-
-    return user_cache
-
-def create_mail(users):
     auth = HTTPBasicAuth('api', MAILGUN_API_KEY)
-    for user, comics in users.iteritems():
-        txt = txt_view.render(comics=comics, user=user)
-        html = html_view.render(comics=comics, user=user)
-        if not debug:
-            r = requests.post(
-                url="https://api.mailgun.net/v2/%s/messages" % (MAILGUN_DOMAIN),
-                data={
-                    "from": "Comics Notifier <notifier@comicsnotifier.mailgun.org>",
-                    "to": user,
-                    "subject": "New comics releases today",
-                    "text": txt,
-                    "html": html,
-                },
-                auth=auth
-            )
-        else:
-            print user
-            print txt
+    users = User.query.all()
+
+    for user in users:
+        user_issues = new_issues.filter(Title.users.any(user.id == User.id)).all()
+        if len(user_issues) > 0:
+            issues = [str(issue) for issue in user_issues]
+            send_mail(user, issues)
 
 if __name__ == "__main__":
     date = datetime(2013, 5, 22)
-    create_mail(query_date(date))
+    send_mails(date)
