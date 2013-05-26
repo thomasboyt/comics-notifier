@@ -4,5 +4,6 @@
 
 raw_assets/
 comics/static/components
+comics/static/tmp
 node_modules/
 dist/
