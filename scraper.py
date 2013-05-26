@@ -68,7 +68,6 @@ if __name__ == "__main__":
         title = Title.query.filter_by(title=comic['title']).first()
         if not title:
             title = Title(comic['title'])
-            print "Added series " + comic['title']
             db.session.add(title)
             db.session.commit()
 

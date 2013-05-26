@@ -24,7 +24,7 @@ def edit():
         if key != user.key:
             abort(401)
 
-        return render_template('edit.html', email=user.email, titles=user.titles)
+        return render_template('edit.html', email=user.email, titles=user.titles.all())
 
     elif request.method == 'POST':
         email = request.form.get('email')
@@ -83,7 +83,7 @@ def subscribe():
         r = requests.post(
             url="https://api.mailgun.net/v2/%s/messages" % (app.config['MAILGUN_DOMAIN']),
             data={
-                "from": "Comics Notifier <notifier@comicsnotifier.mailgun.org>",
+                "from": "Wham! Pow! Comics Notifier <notifier@comicsnotifier.mailgun.org>",
                 "to": user.email,
                 "subject": "Subscription confirmation",
                 "text": txt,
@@ -94,7 +94,7 @@ def subscribe():
         return '{}'
     else:
         print txt
-        return html
+        return '{}'
 
 @app.route('/unsubscribe')
 def unsubscribe():
@@ -109,4 +109,3 @@ def unsubscribe():
 @app.route('/')
 def index():
     return render_template('index.html')
-
