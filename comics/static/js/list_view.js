@@ -2,7 +2,7 @@ var module = angular.module('whampow', []);
 
 module.directive('comicsList', function() {
   return {
-    templateUrl: '/static/ng-templates/comic-search.html',
+    templateUrl: 'comic-search.html',
     link: function($scope) {
       $scope.selectedComics = window.selectedSeries || [];
 

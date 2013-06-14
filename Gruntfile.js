@@ -8,7 +8,7 @@ module.exports = function(grunt) {
             'comics/static/components/jquery/jquery.min.js',
             'comics/static/components/bootstrap/js/bootstrap-alert.js',
             'comics/static/components/typeahead.js/dist/typeahead.js',
-            'comics/static/components/angular/angular.min.js',
+            'comics/static/components/angular/angular.min.js'
           ]
         }
       }
@@ -28,13 +28,30 @@ module.exports = function(grunt) {
         }
       }
     },
+    ngtemplates: {
+      whampow: {
+        options: {
+          base: "comics/static/ng-templates/"
+        },
+        src: "comics/static/ng-templates/*.html",
+        dest: "comics/static/tmp/templates.js"
+      }
+    },
     watch: {
-      dev: {
+      less: {
         files: [
           'comics/static/stylesheets/**/*'
         ],
         tasks: [
           'less:dev'
+        ]
+      },
+      ngtemplates: {
+        files: [
+          'comics/static/ngtemplates/**/*'
+        ],
+        tasks: [
+          'ngtemplates'
         ]
       }
     },
@@ -56,11 +73,14 @@ module.exports = function(grunt) {
         }, {
           src: "comics/static/font/*",
           dest: "font/"
+        }, {
+          src: "comics/static/tmp/templates.js",
+          dest: "static/tmp/templates.js"
         }],
       }
     }
   });
 
-  grunt.registerTask("dev", ["less:dev", "watch"]);
-  grunt.registerTask("build", ["uglify", "less:dist"]);
+  grunt.registerTask("dev", ["less:dev", "ngtemplates", "watch"]);
+  grunt.registerTask("build", ["ngtemplates", "uglify", "less:dist"]);
 };
