@@ -17,7 +17,7 @@ def edit():
     if request.method == 'GET':
         email = request.args.get('email')
         key = request.args.get('key')
-        
+
         user = User.query.filter_by(email=email).first()
         if not user:
             abort(404)

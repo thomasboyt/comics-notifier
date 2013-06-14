@@ -69,7 +69,7 @@ $(function() {
 
   $("#search-form").submit(function(e) {
     e.preventDefault();
-    
+
     var title = $("#search").val();
     var series;
     allSeries.forEach(function(item) {

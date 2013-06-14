@@ -4,7 +4,7 @@ $(function() {
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-  } 
+  }
 
   $("#edit-submit").click(function(e) {
     e.preventDefault();

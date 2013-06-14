@@ -1,7 +1,6 @@
 /* global createAlert, selectedSeries */
 
 $(function() {
-
   $("#email-form").submit(function(e) {
     e.preventDefault();
 
@@ -35,5 +34,4 @@ $(function() {
       }
     });
   });
-    
 });
