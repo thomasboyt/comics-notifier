@@ -27,8 +27,8 @@ def edit():
         return render_template('edit.html', email=user.email, titles=user.titles.all())
 
     elif request.method == 'POST':
-        email = request.form.get('email')
-        key = request.form.get('key')
+        email = request.json.get('email')
+        key = request.json.get('key')
 
         user = User.query.filter_by(email=email).first()
         if not user:
@@ -36,7 +36,7 @@ def edit():
         if key != user.key:
             abort(401)
 
-        title_ids = request.form.get('ids').split(',')
+        title_ids = request.json.get('ids')
         titles = []
         titles = Title.query.filter(Title.id.in_(title_ids)).order_by(Title.title).all()
 
@@ -47,19 +47,17 @@ def edit():
         return "{}"
 
 mail_auth = HTTPBasicAuth('api', app.config['MAILGUN_API_KEY'])
-@app.route('/subscribe')
+@app.route('/subscribe', methods=['POST'])
 def subscribe():
-    email = request.args.get('email')
+    email = request.json.get('email')
 
     existing_user = User.query.filter_by(email=email).first()
     if existing_user:
         return json.dumps({
-            "error": True,
-            "desc": "USER_EXISTS"
+            "error": "user exists",
         })
 
-    title_ids = request.args.get('ids')
-    title_ids = title_ids.split(',')
+    title_ids = request.json.get('ids')
 
     titles = []
 

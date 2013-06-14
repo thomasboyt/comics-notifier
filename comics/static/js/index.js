@@ -1,37 +1,37 @@
 /* global createAlert, selectedSeries */
 
-$(function() {
-  $("#email-form").submit(function(e) {
-    e.preventDefault();
+var module = angular.module('whampow');
 
-    var ids = [];
-    for (prop in selectedSeries) {
-      ids.push(prop);
-    }
-    if (ids.length == 0) {
-      // do some error
-      $.createAlert($("#subscribe-alert-container"), "You need to add some series to subscribe to!");
-      return;
-    }
-    ids = ids.join(",");
-
-    var email = $("#email").val();
-    if (!email) {
+module.controller('indexCtrl', function($scope, $http) {
+  $scope.submit = function() {
+    if (!$scope.validate()) {
       return;
     }
 
-    $.getJSON("/subscribe", {email: email, ids: ids}, function(data) {
-      if (data.error) {
-        if (data.desc === "USER_EXISTS") {
-          $.createAlert($("#subscribe-alert-container"), "You've already subscribed. To update your subscriptions, use the update link in your last email.")
-        }
-        else {
-          $.createAlert($("#subscribe-alert-container"), "Mysterious error!");
-        }
+    var ids = $scope.selectedComics.map(function(comic) {
+      return comic.id;
+    });
+
+    $http.post("/subscribe", {
+      email: $scope.email,
+      ids: ids
+    }).success(function(data) {
+      if (data.error === "user exists") {
+        $.createAlert($("#subscribe-alert-container"), "You've already subscribed. To update your subscriptions, use the update link in your last email.")
+      }
+      else if (data.error) {
+        $.createAlert($("#subscribe-alert-container"), "Mysterious error.")
       }
       else {
         $.createAlert($("#subscribe-alert-container"), "Success! You should receive a confirmation email shortly.", "success");
       }
-    });
-  });
+    })
+  }
+
+  $scope.validate = function() {
+    return $scope.selectedComics
+      && $scope.selectedComics.length > 0
+      && $scope.email !== undefined
+      && $scope.email !== "";
+  }
 });

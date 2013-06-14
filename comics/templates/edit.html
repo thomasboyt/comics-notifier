@@ -2,15 +2,7 @@
 
 {% block head %}
   <script>
-    (function () {
-      // transform titles array into id: {title} map
-      window.selectedSeries = {};
-
-      var series = {{titles|tojson|safe}};
-      for (var i=0; i<series.length; i++) {
-        selectedSeries[series[i].id] = series[i];
-      }
-    })();
+    window.selectedSeries = {{titles|tojson|safe}};
   </script>
 
   <script src="{{ url_for('static', filename='js/list_view.js') }}"></script>
@@ -19,29 +11,16 @@
 {% endblock %}
 
 {% block body %}
-  <div class="panel">
+  <div class="panel" ng-controller="editCtrl">
     {% include "_header.html" %}
 
     <p>Welcome back, <strong>{{email}}</strong>!</p>
 
     <h3>Change Your Subscriptions</h3>
-    
-    <form id="search-form">
-      <div class="form-container input-append search-container">
-        <button type="submit" id="search-submit" class="btn">Add Series</button>
-        <div class="stretcher">
-          <input type="text" id="search" placeholder="Detective Comics">
-        </div>
-      </div>
-    </form>
 
-    <div id="search-alert-container">
-    </div>
+    <div comics-list></div>
 
-    <table id="series-table" class="table table-striped table-bordered">
-    </table>
-
-    <button type="submit" id="edit-submit" class="btn">Save Changes</button>
+    <button id="edit-submit" class="btn" ng-click="submit()">Save Changes</button>
 
     <div id="edit-alert-container">
     </div>

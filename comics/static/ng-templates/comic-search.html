@@ -1,0 +1,22 @@
+<form id="search-form" ng-submit="addSeries()">
+  <div class="form-container input-append search-container">
+    <button type="submit" id="search-submit" class="btn">Add Series</button>
+    <div class="stretcher">
+    	<input type="text" id="search" placeholder="Detective Comics" ng-model="formComic" typeahead>
+    </div>
+  </div>
+</form>
+
+<div id="search-alert-container">
+</div>
+
+<table id="series-table" ng-show="selectedComics.length > 0" class="table table-striped table-bordered">
+  <tr ng-repeat="comic in selectedComics">
+    <td>{{comic.title}}</td>
+    <td>
+      <a href class='delete-link' ng-click="removeSeries($index)">
+        <i class='icon-remove'></i>
+      </a>
+    </td>
+  </tr>
+</table>

@@ -1,4 +1,6 @@
-$(function() {
+var module = angular.module('whampow');
+
+module.controller('editCtrl', function($scope, $http) {
   function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -6,26 +8,22 @@ $(function() {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
 
-  $("#edit-submit").click(function(e) {
-    e.preventDefault();
+  $scope.submit = function() {
+    var ids = $scope.selectedComics.map(function(comic) {
+      return comic.id;
+    });
 
-    var ids = [];
-    for (prop in selectedSeries) {
-      ids.push(prop);
-    }
-    ids = ids.join(",");
-
-    $.post("/edit", {
+    $http.post("/edit", {
       email: getParameterByName("email"),
       key: getParameterByName("key"),
       ids: ids
-    }, function(data) {
+    }).success(function(data) {
       if (data.error) {
         $.createAlert($("#edit-alert-container"), "Mysterious error!")
       }
       else {
         $.createAlert($("#edit-alert-container"), "Your subscriptions have been updated.", "success")
       }
-    });
-  });
-});
+    })
+  }
+})

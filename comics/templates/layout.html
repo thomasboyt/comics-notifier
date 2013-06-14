@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="whampow">
   <head>
     <title>Comics Notifier</title>
 
@@ -7,11 +7,12 @@
     <script src="/static/components/jquery/jquery.min.js"></script>
     <script src="/static/components/typeahead.js/dist/typeahead.js"></script>
     <script src="/static/components/bootstrap/js/bootstrap-alert.js"></script>
-
+    <script src="/static/components/angular/angular.js"></script>
 
     <link href="{{ url_for('static', filename='tmp/styles.css') }}" rel="stylesheet" />
     {% else %}
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
     {% endif %}
 
