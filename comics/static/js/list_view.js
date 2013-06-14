@@ -1,8 +1,11 @@
-var module = angular.module('whampow', []);
+var module = angular.module('whampow');
 
 module.directive('comicsList', function() {
   return {
     templateUrl: 'comic-search.html',
+    scope: {
+      "selectedComics": "=comicsList"
+    },
     link: function($scope) {
       $scope.selectedComics = window.selectedSeries || [];
 
@@ -14,7 +17,7 @@ module.directive('comicsList', function() {
           if (item.title.toLowerCase() === title.toLowerCase()) series = item;
         });
         if (!series) {
-          $.createAlert($("#search-alert-container"), "Series not found in our database.");
+          $scope.alert = {type: 'error', message: "Series not found in our database."}
           return;
         }
 
@@ -22,12 +25,13 @@ module.directive('comicsList', function() {
           return comic.id === series.id;
         }).length > 0;
         if (exists) {
-          $.createAlert($("#search-alert-container"), "That series is already on your list.");
+          $scope.alert = {type: 'error', message: "That series is already on your list.",}
           return;
         }
 
         $scope.selectedComics.push(series);
         $scope.$emit("resetTypeahead");
+        $scope.alert = null;
       }
       $scope.removeSeries = function(idx) {
         $scope.selectedComics.splice(idx,1);
@@ -79,10 +83,3 @@ module.directive('typeahead', function() {
     })
   }
 });
-
-$.createAlert = function(container, message, type) {
-  if (!type) type = 'error';
-  var alertBox = $("<div class='alert alert-" + type + "'>").html(message)
-    .append('<a class="close" data-dismiss="alert" href="#"><i class="icon-remove"></i></a>');
-  container.append(alertBox);
-};

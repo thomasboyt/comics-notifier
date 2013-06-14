@@ -5,6 +5,7 @@
     window.selectedSeries = {{titles|tojson|safe}};
   </script>
 
+  <script src="{{ url_for('static', filename='js/alert.js') }}"></script>
   <script src="{{ url_for('static', filename='js/list_view.js') }}"></script>
   <script src="{{ url_for('static', filename='js/edit.js') }}"></script>
   <script src="{{ url_for('static', filename='js/placeholders.js') }}"></script>
@@ -18,13 +19,11 @@
 
     <h3>Change Your Subscriptions</h3>
 
-    <div comics-list></div>
+    <div comics-list="selectedComics"></div>
 
-    <button id="edit-submit" class="btn" ng-click="submit()">Save Changes</button>
+    <p><button id="edit-submit" class="btn" ng-click="submit()">Save Changes</button></p>
 
-    <div id="edit-alert-container">
-    </div>
-
+    <alert alert-object="alert"></alert>
   </div>
 {% endblock %}
 

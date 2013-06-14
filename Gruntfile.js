@@ -48,7 +48,7 @@ module.exports = function(grunt) {
       },
       ngtemplates: {
         files: [
-          'comics/static/ngtemplates/**/*'
+          'comics/static/ng-templates/**/*'
         ],
         tasks: [
           'ngtemplates'

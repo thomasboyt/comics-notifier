@@ -1,7 +1,3 @@
-/* global createAlert, selectedSeries */
-
-var module = angular.module('whampow');
-
 module.controller('indexCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.submit = function() {
     if (!$scope.validate()) {
@@ -17,14 +13,20 @@ module.controller('indexCtrl', ['$scope', '$http', function($scope, $http) {
       ids: ids
     }).success(function(data) {
       if (data.error === "user exists") {
-        $.createAlert($("#subscribe-alert-container"), "You've already subscribed. To update your subscriptions, use the update link in your last email.")
+        $scope.alert = { type: "error",
+          message: "You've already subscribed. To update your subscriptions, use the update link in your last email."}
       }
       else if (data.error) {
-        $.createAlert($("#subscribe-alert-container"), "Mysterious error.")
+        $scope.alert = { type: "error",
+          message: "Mysterious error."}
       }
       else {
-        $.createAlert($("#subscribe-alert-container"), "Success! You should receive a confirmation email shortly.", "success");
+        $scope.alert = { type: "success",
+          message: "Success! You should receive a confirmation email shortly."}
       }
+    }).error(function(data) {
+      $scope.alert = { type: "error",
+        message: "Mysterious error."}
     })
   }
 

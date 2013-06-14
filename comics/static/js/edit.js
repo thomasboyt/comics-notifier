@@ -19,10 +19,10 @@ module.controller('editCtrl', ['$scope', '$http', function($scope, $http) {
       ids: ids
     }).success(function(data) {
       if (data.error) {
-        $.createAlert($("#edit-alert-container"), "Mysterious error!")
+        $scope.alert = {type: "error", message: "Mysterious error!" }
       }
       else {
-        $.createAlert($("#edit-alert-container"), "Your subscriptions have been updated.", "success")
+        $scope.alert = { type: "success", message:  "Your subscriptions have been updated."}
       }
     });
   }
