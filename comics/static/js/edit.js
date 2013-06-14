@@ -1,6 +1,6 @@
 var module = angular.module('whampow');
 
-module.controller('editCtrl', function($scope, $http) {
+module.controller('editCtrl', ['$scope', '$http', function($scope, $http) {
   function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -24,6 +24,6 @@ module.controller('editCtrl', function($scope, $http) {
       else {
         $.createAlert($("#edit-alert-container"), "Your subscriptions have been updated.", "success")
       }
-    })
+    });
   }
-})
+}]);

@@ -2,7 +2,7 @@
 
 var module = angular.module('whampow');
 
-module.controller('indexCtrl', function($scope, $http) {
+module.controller('indexCtrl', ['$scope', '$http', function($scope, $http) {
   $scope.submit = function() {
     if (!$scope.validate()) {
       return;
@@ -34,4 +34,4 @@ module.controller('indexCtrl', function($scope, $http) {
       && $scope.email !== undefined
       && $scope.email !== "";
   }
-});
+}]);
