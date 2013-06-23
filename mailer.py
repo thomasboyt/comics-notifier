@@ -46,5 +46,5 @@ def send_mails(date):
             send_mail(user, issues)
 
 if __name__ == "__main__":
-    date = datetime(2013, 5, 22)
+    date = datetime.today()
     send_mails(date)
