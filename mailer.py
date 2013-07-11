@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 import os
 
 from jinja2 import Template, PackageLoader, Environment
@@ -46,5 +46,5 @@ def send_mails(date):
             send_mail(user, issues)
 
 if __name__ == "__main__":
-    date = datetime.today()
+    date = date.today()
     send_mails(date)
